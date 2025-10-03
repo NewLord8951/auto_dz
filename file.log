@@ -102116,3 +102116,280 @@ p.title {
 2025-10-03 at 10:11:29 | INFO | __main__:auto_fill_homework:502 | Не найдено активных домашних заданий для выполнения
 2025-10-03 at 10:11:29 | SUCCESS | __main__:main:557 | Процесс завершен успешно!
 2025-10-03 at 10:11:55 | INFO | __main__:main:571 | Браузер закрыт
+2025-10-03 at 11:22:39 | INFO | Страница загружена
+2025-10-03 at 11:22:40 | INFO | Данные для входа введены
+2025-10-03 at 11:22:40 | INFO | Кнопка входа нажата
+2025-10-03 at 11:22:45 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:22:46 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:22:46 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:22:46 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:22:48 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:22:51 | INFO | Клик на 'Кликните здесь' для: Разработка программных модулей
+2025-10-03 at 11:22:51 | SUCCESS | Готово к загрузке файла для: Разработка программных модулей
+2025-10-03 at 11:22:51 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:23:21 | ERROR | Ошибка при обработке задания 14: ElementHandle.hover: Timeout 30000ms exceeded.
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+    - element is visible and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="content" _ngcontent-aud-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+  - retrying hover action
+    - waiting for element to be visible and stable
+    - element is visible and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <span role="textbox" contenteditable="" class="textarea text-homework-field" data-placeholder="Здесь Вы можете написать ваш текстовый ответ"></span> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+  - retrying hover action
+    - waiting 20ms
+    2 × waiting for element to be visible and stable
+      - element is visible and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="content" _ngcontent-aud-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+    - retrying hover action
+      - waiting 100ms
+    14 × waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-aud-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <span role="textbox" contenteditable="" class="textarea text-homework-field" data-placeholder="Здесь Вы можете написать ваш текстовый ответ"></span> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-aud-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-aud-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+
+2025-10-03 at 11:23:21 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:29:15 | INFO | Страница загружена
+2025-10-03 at 11:29:15 | INFO | Данные для входа введены
+2025-10-03 at 11:29:15 | INFO | Кнопка входа нажата
+2025-10-03 at 11:29:20 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:29:22 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:29:22 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:29:22 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:29:23 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:29:26 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:29:26 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: Error: Node is not an HTMLInputElement
+2025-10-03 at 11:29:26 | SUCCESS | Файл загружен для: Разработка программных модулей
+2025-10-03 at 11:29:26 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:29:56 | ERROR | Ошибка при обработке задания 14: ElementHandle.hover: Timeout 30000ms exceeded.
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+    - element is visible and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="content" _ngcontent-ihm-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+  - retrying hover action
+    - waiting for element to be visible and stable
+    - element is visible and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <span role="textbox" contenteditable="" class="textarea text-homework-field" data-placeholder="Здесь Вы можете написать ваш текстовый ответ"></span> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+  - retrying hover action
+    - waiting 20ms
+    2 × waiting for element to be visible and stable
+      - element is visible and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="content" _ngcontent-ihm-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+    - retrying hover action
+      - waiting 100ms
+    14 × waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-ihm-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <span role="textbox" contenteditable="" class="textarea text-homework-field" data-placeholder="Здесь Вы можете написать ваш текстовый ответ"></span> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-ihm-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+       - waiting for element to be visible and stable
+       - element is visible and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="content" _ngcontent-ihm-c11="">…</div> from <modal-container role="dialog" tabindex="-1" class="modal fade show">…</modal-container> subtree intercepts pointer events
+     - retrying hover action
+       - waiting 500ms
+
+2025-10-03 at 11:29:56 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:32:35 | INFO | Страница загружена
+2025-10-03 at 11:32:35 | INFO | Данные для входа введены
+2025-10-03 at 11:32:35 | INFO | Кнопка входа нажата
+2025-10-03 at 11:32:40 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:32:41 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:32:41 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:32:41 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:32:43 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:32:46 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:32:46 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:32:47 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:32:47 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:32:48 | INFO | Клик на кнопку загрузки для: Операционные системы и среды
+2025-10-03 at 11:32:51 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:32:51 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:32:52 | SUCCESS | Обработка завершена для: Операционные системы и среды
+2025-10-03 at 11:32:52 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:32:53 | INFO | Клик на кнопку загрузки для: Информационные технологии
+2025-10-03 at 11:32:56 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:32:56 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:32:57 | SUCCESS | Обработка завершена для: Информационные технологии
+2025-10-03 at 11:32:57 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:32:58 | INFO | Клик на кнопку загрузки для: Информационные технологии
+2025-10-03 at 11:33:01 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:33:02 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:33:03 | SUCCESS | Обработка завершена для: Информационные технологии
+2025-10-03 at 11:33:03 | INFO | Найдена кнопка загрузки для: Архитектура аппаратных средств
+2025-10-03 at 11:33:04 | INFO | Клик на кнопку загрузки для: Архитектура аппаратных средств
+2025-10-03 at 11:33:07 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:33:07 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:33:08 | SUCCESS | Обработка завершена для: Архитектура аппаратных средств
+2025-10-03 at 11:33:08 | INFO | Найдена кнопка загрузки для: Компьютерные сети
+2025-10-03 at 11:33:09 | INFO | Клик на кнопку загрузки для: Компьютерные сети
+2025-10-03 at 11:33:12 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:33:12 | ERROR | Ошибка при загрузке файла: ElementHandle.set_input_files: ENOENT: no such file or directory, access 'C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg'
+2025-10-03 at 11:33:13 | SUCCESS | Обработка завершена для: Компьютерные сети
+2025-10-03 at 11:33:13 | INFO | Обработка домашних заданий завершена
+2025-10-03 at 11:34:35 | INFO | Страница загружена
+2025-10-03 at 11:34:35 | INFO | Данные для входа введены
+2025-10-03 at 11:34:35 | INFO | Кнопка входа нажата
+2025-10-03 at 11:34:40 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:34:42 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:34:42 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:34:42 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:34:43 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:34:46 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:34:46 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:34:48 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:34:49 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:34:49 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:34:50 | INFO | Клик на кнопку загрузки для: Операционные системы и среды
+2025-10-03 at 11:34:53 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:34:53 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:34:56 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:34:57 | SUCCESS | Обработка завершена для: Операционные системы и среды
+2025-10-03 at 11:34:57 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:34:58 | INFO | Клик на кнопку загрузки для: Информационные технологии
+2025-10-03 at 11:39:54 | INFO | Страница загружена
+2025-10-03 at 11:39:54 | INFO | Данные для входа введены
+2025-10-03 at 11:39:54 | INFO | Кнопка входа нажата
+2025-10-03 at 11:39:59 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:40:01 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:40:01 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:40:01 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:40:03 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:40:06 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:40:06 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:40:08 | INFO | Клик на звезду выполнен
+2025-10-03 at 11:40:09 | INFO | Поле часов заполнено: 12
+2025-10-03 at 11:40:09 | INFO | Поле минут заполнено: 30
+2025-10-03 at 11:40:10 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:40:11 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:40:11 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:40:12 | INFO | Клик на кнопку загрузки для: Операционные системы и среды
+2025-10-03 at 11:44:42 | INFO | Страница загружена
+2025-10-03 at 11:44:42 | INFO | Данные для входа введены
+2025-10-03 at 11:44:42 | INFO | Кнопка входа нажата
+2025-10-03 at 11:44:47 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:44:48 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:44:48 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:44:48 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:44:50 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:44:53 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:44:53 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:44:55 | INFO | Клик на звезду рейтинга выполнен (селектор: .bs-rating-star[title="5"] .rating-star)
+2025-10-03 at 11:44:56 | INFO | Поле часов заполнено: 12
+2025-10-03 at 11:44:56 | INFO | Поле минут заполнено: 30
+2025-10-03 at 11:44:57 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:44:58 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:44:58 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:44:59 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:45:02 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:45:02 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:45:04 | INFO | Клик на звезду рейтинга выполнен (селектор: .bs-rating-star[title="5"] .rating-star)
+2025-10-03 at 11:45:05 | INFO | Поле часов заполнено: 12
+2025-10-03 at 11:45:06 | INFO | Поле минут заполнено: 30
+2025-10-03 at 11:45:07 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:45:08 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:45:08 | INFO | Найдена кнопка загрузки для: Операционные системы и среды
+2025-10-03 at 11:45:09 | INFO | Клик на кнопку загрузки для: Операционные системы и среды
+2025-10-03 at 11:45:12 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:45:12 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:45:14 | INFO | Клик на звезду рейтинга выполнен (селектор: .bs-rating-star[title="5"] .rating-star)
+2025-10-03 at 11:45:15 | INFO | Поле часов заполнено: 12
+2025-10-03 at 11:45:16 | INFO | Поле минут заполнено: 30
+2025-10-03 at 11:45:16 | INFO | Модальное окно закрыто с помощью Escape
+2025-10-03 at 11:45:17 | SUCCESS | Обработка завершена для: Операционные системы и среды
+2025-10-03 at 11:45:17 | INFO | Найдена кнопка загрузки для: Информационные технологии
+2025-10-03 at 11:57:16 | INFO | Страница загружена
+2025-10-03 at 11:57:16 | INFO | Данные для входа введены
+2025-10-03 at 11:57:16 | INFO | Кнопка входа нажата
+2025-10-03 at 11:57:21 | SUCCESS | Вход выполнен! Текущий URL: https://journal.top-academy.ru/ru/main/dashboard/page/index
+2025-10-03 at 11:57:23 | INFO | Страница с домашними заданиями загружена
+2025-10-03 at 11:57:23 | INFO | Найдено элементов с домашними заданиями: 18
+2025-10-03 at 11:57:23 | INFO | Найдена кнопка загрузки для: Разработка программных модулей
+2025-10-03 at 11:57:24 | INFO | Клик на кнопку загрузки для: Разработка программных модулей
+2025-10-03 at 11:57:27 | INFO | Путь к файлу: C:\Users\Student1-2\Downloads\auto_dz\auto_dz\cat.jpg
+2025-10-03 at 11:57:27 | INFO | Файл cat.jpg успешно загружен
+2025-10-03 at 11:57:29 | INFO | Клик на звезду рейтинга выполнен (селектор: .bs-rating-star[title="5"] .rating-star)
+2025-10-03 at 11:57:30 | INFO | Поле часов заполнено: 12
+2025-10-03 at 11:57:31 | INFO | Поле минут заполнено: 30
+2025-10-03 at 11:57:31 | INFO | Кнопка 'Отправить' нажата
+2025-10-03 at 11:57:34 | INFO | Модальное окно закрылось после отправки
+2025-10-03 at 11:57:34 | SUCCESS | Обработка завершена для: Разработка программных модулей
+2025-10-03 at 11:57:34 | INFO | Найдена кнопка загрузки для:  Разработка программных модулей Разработка программных модулей
+2025-10-03 at 11:57:34 | ERROR | Ошибка при обработке задания 14: ElementHandle.hover: Element is not attached to the DOM
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+
+2025-10-03 at 11:57:36 | INFO | Найдена кнопка загрузки для:  Операционные системы и среды Операционные системы и среды
+2025-10-03 at 11:57:36 | ERROR | Ошибка при обработке задания 15: ElementHandle.hover: Element is not attached to the DOM
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+
+2025-10-03 at 11:57:37 | INFO | Найдена кнопка загрузки для:  Информационные технологии Информационные технологии
+2025-10-03 at 11:57:37 | ERROR | Ошибка при обработке задания 16: ElementHandle.hover: Element is not attached to the DOM
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+
+2025-10-03 at 11:57:38 | INFO | Найдена кнопка загрузки для:  Информационные технологии Информационные технологии
+2025-10-03 at 11:57:38 | ERROR | Ошибка при обработке задания 17: ElementHandle.hover: Element is not attached to the DOM
+Call log:
+  - attempting hover action
+    - waiting for element to be visible and stable
+
