@@ -1,0 +1,8 @@
+colorama==0.4.6
+greenlet==3.2.4
+loguru==0.7.3
+playwright==1.55.0
+pyee==13.0.0
+python-dotenv==1.1.1
+typing_extensions==4.15.0
+win32_setctime==1.2.0

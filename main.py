@@ -29,6 +29,19 @@ def check_env_variables():
         return False
     return True
 
+def safe_click(element, description="элемент"):
+    """Безопасный клик с несколькими попытками"""
+    for attempt in range(3):
+        try:
+            element.scroll_into_view_if_needed()
+            element.click(timeout=5000)
+            logger.info(f"Успешный клик на {description}")
+            return True
+        except Exception as e:
+            logger.warning(f"Попытка {attempt + 1} клика не удалась: {e}")
+            time.sleep(1)
+    return False
+
 def login_to_journal(page):
     """Выполнение процесса входа"""
     try:
@@ -36,11 +49,11 @@ def login_to_journal(page):
         page.goto(
             "https://journal.top-academy.ru/ru/auth/login/index?returnUrl=%2Fru%2Fmain%2Fdashboard%2Fpage%2Findex",
             wait_until="networkidle",
-            timeout=15000
+            timeout=20000
         )
 
         logger.info("Ожидание элементов формы...")
-        page.wait_for_selector('input[name="username"]', state="visible", timeout=10000)
+        page.wait_for_selector('input[name="username"]', state="visible", timeout=15000)
 
         page.fill('input[name="username"]', LOGIN)
         page.fill('input[name="password"]', PASSWORD)
@@ -50,7 +63,7 @@ def login_to_journal(page):
         logger.info("Кнопка входа нажата")
 
         try:
-            page.wait_for_url("**/dashboard/**", timeout=10000)
+            page.wait_for_url("**/dashboard/**", timeout=15000)
             logger.success(f"Вход выполнен успешно! Текущий URL: {page.url}")
             return True
         except PlaywrightTimeoutError:
@@ -74,6 +87,10 @@ def navigate_to_homework(page):
     try:
         logger.info("Поиск раздела с домашними заданиями...")
         
+        # Даем странице полностью загрузиться
+        page.wait_for_load_state("networkidle", timeout=15000)
+        time.sleep(3)
+        
         # Сначала попробуем найти прямые ссылки на задания
         homework_selectors = [
             "a:has-text('Текущие')",
@@ -87,13 +104,15 @@ def navigate_to_homework(page):
         
         for selector in homework_selectors:
             try:
-                if page.locator(selector).first.is_visible(timeout=2000):
-                    page.locator(selector).first.click()
-                    logger.info(f"Нажата ссылка: {selector}")
-                    page.wait_for_load_state("networkidle", timeout=10000)
-                    time.sleep(3)
-                    return True
-            except:
+                element = page.locator(selector).first
+                if element.is_visible(timeout=3000):
+                    logger.info(f"Найдена ссылка: {selector}")
+                    if safe_click(element, f"ссылку {selector}"):
+                        page.wait_for_load_state("networkidle", timeout=10000)
+                        time.sleep(3)
+                        return True
+            except Exception as e:
+                logger.debug(f"Не удалось найти/кликнуть по {selector}: {e}")
                 continue
         
         # Если прямые ссылки не найдены, ищем в меню
@@ -101,23 +120,94 @@ def navigate_to_homework(page):
         menu_items = page.locator("nav a, .menu a, .navigation a, [class*='nav'] a, [class*='item'] a")
         count = menu_items.count()
         
-        for i in range(count):
+        logger.info(f"Найдено {count} элементов меню")
+        
+        for i in range(min(count, 20)):  # Ограничиваем поиск первыми 20 элементами
             try:
-                text = menu_items.nth(i).text_content().strip().lower()
+                element = menu_items.nth(i)
+                text = element.text_content().strip().lower()
+                logger.debug(f"Элемент меню {i}: '{text}'")
+                
                 if any(word in text for word in ['текущие', 'домашн', 'homework', 'assignment', 'задани']):
-                    menu_items.nth(i).click()
-                    logger.info(f"Найдена ссылка в меню: {text}")
-                    page.wait_for_load_state("networkidle", timeout=10000)
-                    time.sleep(3)
-                    return True
-            except:
+                    logger.info(f"Найдена подходящая ссылка в меню: {text}")
+                    if safe_click(element, f"меню '{text}'"):
+                        page.wait_for_load_state("networkidle", timeout=10000)
+                        time.sleep(3)
+                        return True
+            except Exception as e:
+                logger.debug(f"Ошибка при обработке элемента меню {i}: {e}")
                 continue
         
+        logger.error("Не удалось найти раздел с домашними заданиями")
         return False
         
     except Exception as e:
         logger.error(f"Ошибка при навигации к заданиям: {e}")
         return False
+
+def find_homework_buttons(page):
+    """Поиск кнопок для загрузки задания"""
+    logger.info("Поиск кнопок для загрузки задания...")
+    
+    # Сначала проверим, есть ли уже выполненные задания
+    completed_selectors = [
+        ":has-text('Скачать / Посмотреть выполненное задание')",
+        ":has-text('Выполнено')",
+        ":has-text('Проверено')"
+    ]
+    
+    for selector in completed_selectors:
+        try:
+            completed_elements = page.locator(selector)
+            if completed_elements.count() > 0:
+                logger.info("Найдены уже выполненные задания - пропускаем")
+                return None
+        except:
+            continue
+    
+    # Основные селекторы для кнопок загрузки
+    upload_selectors = [
+        "button:has-text('Загрузить выполненное задание')",
+        "a:has-text('Загрузить выполненное задание')",
+        "button:has-text('Сдать задание')",
+        "a:has-text('Сдать задание')",
+        ":has-text('Загрузить выполненное задание')",
+        ":has-text('Сдать задание')",
+    ]
+    
+    for selector in upload_selectors:
+        try:
+            buttons = page.locator(selector)
+            count = buttons.count()
+            if count > 0:
+                logger.info(f"Найдено {count} кнопок по селектору: {selector}")
+                return buttons
+        except Exception as e:
+            logger.debug(f"Ошибка при поиске по селектору {selector}: {e}")
+            continue
+    
+    # Альтернативные селекторы
+    alternative_selectors = [
+        "a[href*='homework']",
+        "a[href*='assignment']",
+        "[class*='homework'] a",
+        "[class*='assignment'] a",
+        ".btn:has-text('Отправить')",
+        ".btn:has-text('Сдать')"
+    ]
+    
+    for selector in alternative_selectors:
+        try:
+            elements = page.locator(selector)
+            count = elements.count()
+            if count > 0:
+                logger.info(f"Найдено {count} элементов по альтернативному селектору: {selector}")
+                return elements
+        except Exception as e:
+            logger.debug(f"Ошибка при поиске по альтернативному селектору {selector}: {e}")
+            continue
+    
+    return None
 
 def find_and_submit_homework(page, homework_link):
     """Поиск конкретного задания и отправка ссылки"""
@@ -125,143 +215,90 @@ def find_and_submit_homework(page, homework_link):
         logger.info("Поиск заданий на странице...")
         
         # Ждем загрузки списка заданий
-        page.wait_for_load_state("networkidle", timeout=15000)
+        page.wait_for_load_state("networkidle", timeout=20000)
         time.sleep(3)
         
         # Сохраняем текущий URL для сравнения
         original_url = page.url
         
-        # Ищем кнопку "Помощь с домашним заданием" - приоритетный поиск
-        logger.info("Поиск кнопки 'Помощь с домашним заданием'...")
+        # Ищем кнопки для загрузки задания
+        homework_elements = find_homework_buttons(page)
         
-        upload_selectors = [
-            "a:has-text('Помощь с домашним заданием')",
-            "button:has-text('Помощь с домашним заданием')",
-            ":has-text('Помощь с домашним заданием')",
-            "a:has-text('Загрузить выполненное задание')",
-            "button:has-text('Загрузить выполненное задание')",
-            ":has-text('Загрузить выполненное задание')",
-            "a:has-text('Сдать задание')",
-            "button:has-text('Сдать задание')",
-        ]
+        if not homework_elements:
+            logger.error("Не найдены кнопки для загрузки задания или задание уже выполнено")
+            return False
         
-        button_clicked = False
+        # Пробуем кликнуть на каждую найденную кнопку
+        count = homework_elements.count()
+        logger.info(f"Пробуем кликнуть на {count} найденных элементов")
         
-        for selector in upload_selectors:
+        for i in range(count):
             try:
-                upload_buttons = page.locator(selector)
-                count = upload_buttons.count()
-                if count > 0:
-                    logger.info(f"Найдено {count} кнопок по селектору: {selector}")
+                element = homework_elements.nth(i)
+                if element.is_visible(timeout=5000):
+                    element_text = element.text_content().strip()
+                    logger.info(f"Попытка клика на элемент #{i+1}: '{element_text}'")
                     
-                    # Пробуем кликнуть на все найденные кнопки по порядку
-                    for i in range(count):
-                        try:
-                            button = upload_buttons.nth(i)
-                            if button.is_visible(timeout=3000):
-                                button_text = button.text_content().strip()
-                                logger.info(f"Кликаем на кнопку #{i+1}: '{button_text}'")
-                                button.scroll_into_view_if_needed()
-                                time.sleep(1)
-                                
-                                # Пробуем разные варианты клика
-                                try:
-                                    button.click()
-                                except:
-                                    # Если обычный клик не работает, пробуем через JavaScript
-                                    page.evaluate("(element) => element.click()", button)
-                                
-                                # Ждем загрузки
-                                page.wait_for_load_state("networkidle", timeout=10000)
-                                time.sleep(3)
-                                
-                                # Проверяем, изменился ли URL
-                                if page.url != original_url:
-                                    logger.info(f"Успешно перешли на страницу: {page.url}")
-                                    button_clicked = True
-                                    break
-                                else:
-                                    # Проверяем, не появилось ли модальное окно или форма
-                                    modal_selectors = [
-                                        "[role='dialog']",
-                                        ".modal",
-                                        "[class*='modal']",
-                                        ".popup",
-                                        "form",
-                                        "textarea",
-                                        "input[type='text']"
-                                    ]
-                                    for modal_selector in modal_selectors:
-                                        if page.locator(modal_selector).first.is_visible(timeout=2000):
-                                            logger.info("Обнаружено модальное окно или форма")
-                                            button_clicked = True
-                                            break
-                                    
-                                    if button_clicked:
-                                        break
-                                        
-                        except Exception as e:
-                            logger.debug(f"Ошибка при клике на кнопку #{i+1}: {e}")
-                            continue
+                    # Прокручиваем к элементу
+                    element.scroll_into_view_if_needed()
+                    time.sleep(1)
                     
-                    if button_clicked:
+                    # Сохраняем текущий URL перед кликом
+                    before_click_url = page.url
+                    
+                    # Пробуем кликнуть
+                    try:
+                        element.click()
+                    except:
+                        # Если обычный клик не работает, пробуем через JavaScript
+                        page.evaluate("(element) => element.click()", element)
+                    
+                    # Ждем загрузки
+                    page.wait_for_load_state("networkidle", timeout=15000)
+                    time.sleep(3)
+                    
+                    # Проверяем, изменился ли URL
+                    if page.url != before_click_url:
+                        logger.info(f"Успешно перешли на страницу: {page.url}")
                         break
-            except:
+                    else:
+                        # Проверяем, не появилось ли модальное окно или форма
+                        modal_selectors = [
+                            "[role='dialog']",
+                            ".modal",
+                            "[class*='modal']",
+                            ".popup",
+                            "form",
+                            "textarea",
+                            "input[type='text']"
+                        ]
+                        modal_found = False
+                        for modal_selector in modal_selectors:
+                            try:
+                                if page.locator(modal_selector).first.is_visible(timeout=2000):
+                                    logger.info("Обнаружено модальное окно или форма")
+                                    modal_found = True
+                                    break
+                            except:
+                                continue
+                        
+                        if modal_found:
+                            break
+                        
+            except Exception as e:
+                logger.debug(f"Ошибка при клике на элемент #{i+1}: {e}")
                 continue
         
-        # Если не нашли нужные кнопки, ищем другие варианты
-        if not button_clicked:
-            logger.info("Поиск других кликабельных элементов...")
-            
-            other_selectors = [
-                "a:has-text('Помощь')",
-                "button:has-text('Помощь')",
-                "a[href*='homework']",
-                "a[href*='assignment']",
-                "[class*='homework'] a",
-                "[class*='assignment'] a",
-                ".btn:has-text('Отправить')",
-                ".btn:has-text('Сдать')"
-            ]
-            
-            for selector in other_selectors:
-                try:
-                    elements = page.locator(selector)
-                    if elements.count() > 0:
-                        elements.first.click()
-                        logger.info(f"Кликнули на элемент: {selector}")
-                        page.wait_for_load_state("networkidle", timeout=10000)
-                        time.sleep(3)
-                        button_clicked = True
-                        break
-                except:
-                    continue
-        
-        # Если все еще не нашли, пробуем кликнуть на первую карточку задания
-        if not button_clicked:
-            logger.info("Попытка клика на первую карточку задания...")
-            assignment_cards = page.locator(".card, [class*='assignment'], [class*='homework']")
-            if assignment_cards.count() > 0:
-                try:
-                    assignment_cards.first.click()
-                    logger.info("Кликнули на первую карточку задания")
-                    page.wait_for_load_state("networkidle", timeout=10000)
-                    time.sleep(3)
-                    button_clicked = True
-                except Exception as e:
-                    logger.debug(f"Не удалось кликнуть на карточку: {e}")
-        
         # Если все еще на той же странице, выходим
-        if not button_clicked and page.url == original_url:
-            logger.error("Не удалось найти или нажать на кнопку для загрузки задания")
-            page.screenshot(path="debug_no_button.png")
-            logger.info("Скриншот сохранен как debug_no_button.png")
+        if page.url == original_url:
+            logger.error("Не удалось перейти на страницу загрузки задания")
+            page.screenshot(path="debug_no_navigation.png")
             return False
         
         # Теперь мы на странице загрузки задания или в модальном окне
         logger.info(f"Текущий URL: {page.url}")
         
-        # Ищем поле для ввода ссылки - сначала в модальном окне, потом на странице
+        # Ищем поле для ввода ссылки
         logger.info("Поиск поля для ввода ссылки...")
         
         input_selectors = [
@@ -281,56 +318,54 @@ def find_and_submit_homework(page, homework_link):
             "input[placeholder*='url']"
         ]
         
-        link_field_found = False
+        link_field = None
         
         # Сначала ищем в модальном окне
-        modal_inputs = page.locator("[role='dialog'] textarea, [role='dialog'] input[type='text'], .modal textarea, .modal input[type='text']")
-        if modal_inputs.count() > 0:
+        for selector in input_selectors:
             try:
-                modal_inputs.first.click()
-                modal_inputs.first.clear()
-                modal_inputs.first.fill(homework_link)
-                logger.info("Ссылка вставлена в поле модального окна")
-                link_field_found = True
-            except Exception as e:
-                logger.debug(f"Не удалось вставить в модальное окно: {e}")
+                modal_fields = page.locator(f"[role='dialog'] {selector}, .modal {selector}")
+                if modal_fields.count() > 0 and modal_fields.first.is_visible(timeout=2000):
+                    link_field = modal_fields.first
+                    logger.info("Найдено поле в модальном окне")
+                    break
+            except:
+                continue
         
         # Если не нашли в модальном окне, ищем на странице
-        if not link_field_found:
+        if not link_field:
             for selector in input_selectors:
                 try:
                     fields = page.locator(selector)
-                    count = fields.count()
-                    
-                    for i in range(count):
-                        try:
-                            field = fields.nth(i)
-                            if field.is_visible(timeout=3000):
-                                # Прокручиваем к полю
-                                field.scroll_into_view_if_needed()
-                                time.sleep(1)
-                                
-                                # Очищаем поле и вводим ссылку
-                                field.click()
-                                field.clear()
-                                field.fill(homework_link)
-                                logger.info(f"Ссылка вставлена в поле: {selector}")
-                                link_field_found = True
-                                break
-                        except Exception as e:
-                            logger.debug(f"Ошибка при работе с полем #{i+1}: {e}")
-                            continue
-                    
-                    if link_field_found:
-                        break
-                        
+                    if fields.count() > 0:
+                        for i in range(fields.count()):
+                            try:
+                                field = fields.nth(i)
+                                if field.is_visible(timeout=2000):
+                                    link_field = field
+                                    logger.info(f"Найдено поле на странице: {selector}")
+                                    break
+                            except:
+                                continue
+                        if link_field:
+                            break
                 except:
                     continue
         
-        if not link_field_found:
-            logger.warning("Не найдено подходящего поля для ввода ссылки")
+        if not link_field:
+            logger.error("Не найдено подходящего поля для ввода ссылки")
             page.screenshot(path="debug_no_field.png")
-            logger.info("Скриншот сохранен как debug_no_field.png")
+            return False
+        
+        # Заполняем поле ссылкой
+        try:
+            link_field.scroll_into_view_if_needed()
+            link_field.click()
+            link_field.clear()
+            link_field.fill(homework_link)
+            logger.info("Ссылка вставлена в поле")
+            time.sleep(1)
+        except Exception as e:
+            logger.error(f"Ошибка при заполнении поля: {e}")
             return False
         
         # Ищем кнопку отправки
@@ -352,58 +387,56 @@ def find_and_submit_homework(page, homework_link):
             "button:has-text('Готово')"
         ]
         
-        submitted = False
+        submit_button = None
         
         for selector in submit_selectors:
             try:
-                submit_buttons = page.locator(selector)
-                count = submit_buttons.count()
-                
-                for i in range(count):
-                    try:
-                        button = submit_buttons.nth(i)
-                        if button.is_visible(timeout=3000):
-                            button.scroll_into_view_if_needed()
-                            button_text = button.text_content().strip()
-                            logger.info(f"Нажимаем кнопку: '{button_text}'")
-                            
-                            # Пробуем кликнуть
-                            try:
-                                button.click()
-                            except:
-                                page.evaluate("(element) => element.click()", button)
-                            
-                            # Ждем обработки
-                            time.sleep(5)
-                            
-                            # Проверяем успешность
-                            if check_submission_success(page):
-                                logger.success("Задание успешно отправлено!")
-                                return True
-                            else:
-                                logger.info("Отправка выполнена, но статус не подтвержден")
-                                submitted = True
+                buttons = page.locator(selector)
+                if buttons.count() > 0:
+                    for i in range(buttons.count()):
+                        try:
+                            button = buttons.nth(i)
+                            if button.is_visible(timeout=2000):
+                                submit_button = button
+                                logger.info(f"Найдена кнопка отправки: {selector}")
                                 break
-                    except Exception as e:
-                        logger.debug(f"Ошибка при нажатии кнопки #{i+1}: {e}")
-                        continue
-                
-                if submitted:
-                    break
-                    
+                        except:
+                            continue
+                    if submit_button:
+                        break
             except:
                 continue
         
-        if not submitted:
-            logger.warning("Кнопка отправки не найдена или не сработала")
+        if not submit_button:
+            logger.error("Не найдена кнопка отправки")
             return False
         
-        return True
+        # Нажимаем кнопку отправки
+        try:
+            submit_button.scroll_into_view_if_needed()
+            button_text = submit_button.text_content().strip()
+            logger.info(f"Нажимаем кнопку: '{button_text}'")
+            
+            submit_button.click()
+            
+            # Ждем обработки
+            time.sleep(5)
+            
+            # Проверяем успешность
+            if check_submission_success(page):
+                logger.success("Задание успешно отправлено!")
+                return True
+            else:
+                logger.info("Отправка выполнена, но статус не подтвержден")
+                return True
+                
+        except Exception as e:
+            logger.error(f"Ошибка при нажатии кнопки отправки: {e}")
+            return False
         
     except Exception as e:
         logger.error(f"Ошибка при отправке задания: {e}")
         page.screenshot(path="debug_error.png")
-        logger.info("Скриншот ошибки сохранен как debug_error.png")
         return False
 
 def check_submission_success(page):
@@ -460,11 +493,11 @@ def auto_fill_homework(page):
         return False
     
     # Поиск и отправка задания
-    for attempt in range(3):
-        logger.info(f"Попытка {attempt + 1} из 3")
+    for attempt in range(2):  # Уменьшил количество попыток
+        logger.info(f"Попытка {attempt + 1} из 2")
         if find_and_submit_homework(page, user_link):
             return True
-        time.sleep(2)
+        time.sleep(3)
     
     logger.error("Не удалось автоматически заполнить домашнее задание")
     return False
@@ -480,38 +513,19 @@ def main():
         try:
             browser = p.chromium.launch(
                 headless=False,
-                args=["--disable-blink-features=AutomationControlled"]
+                args=["--disable-blink-features=AutomationControlled", "--start-maximized"]
             )
             context = browser.new_context(
                 viewport={'width': 1280, 'height': 720},
                 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             )
             context.add_init_script("""
-                    delete navigator.__proto__.webdriver;
-                    window.chrome = { runtime: {} };
-                    Object.defineProperty(navigator, 'languages', {
-                        get: () => ['en-US', 'en']
-                    });
-                    const pluginArray = {
-                        length: 3,
-                        item: () => null,
-                        namedItem: () => null,
-                        [Symbol.iterator]: function* () {
-                            yield { name: "Chrome PDF Plugin", filename: "internal-pdf-viewer" };
-                            yield { name: "Chrome PDF Viewer", filename: "mhjfbmdgcfjbbpaeojoecjjalo" };
-                            yield { name: "Native Client", filename: "internal-nacl-plugin" };
-                        }
-                    };
-                    Object.defineProperty(navigator, 'plugins', {
-                        get: () => pluginArray
-                    });
-                    const originalQuery = WebGLRenderingContext.prototype.getParameter;
-                    WebGLRenderingContext.prototype.getParameter = function(param) {
-                        if (param === 37445) return 'Google Inc.';
-                        if (param === 37446) return 'ANGLE (Intel, Intel(R) UHD Graphics Direct3D11 vs_5_0 ps_5_0, D3D11)';
-                        return originalQuery.call(this, param);
-                    };
-                    """)
+                delete navigator.__proto__.webdriver;
+                window.chrome = { runtime: {} };
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en']
+                });
+            """)
 
             page = context.new_page()
 
@@ -526,12 +540,11 @@ def main():
                     logger.debug(f"Не удалось получить имя пользователя: {e}")
 
                 # Автоматическое заполнение домашнего задания
-                choice = input("Хотите автоматически заполнить домашнее задание? (y/n): ").strip().lower()
-                if choice in ['y', 'yes', 'д', 'да']:
-                    if auto_fill_homework(page):
-                        logger.success("Процесс завершен успешно!")
-                    else:
-                        logger.warning("Автозаполнение не удалось, но вход выполнен")
+                logger.info("Запуск автоматического заполнения домашнего задания...")
+                if auto_fill_homework(page):
+                    logger.success("Процесс завершен успешно!")
+                else:
+                    logger.warning("Автозаполнение не удалось, но вход выполнен")
                 
                 input("Нажмите Enter для закрытия...")
             else:
